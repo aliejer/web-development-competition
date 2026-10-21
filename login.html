@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Login | OMIS</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <main class="login-container">
+      <section class="login-brand">
+        <div class="brand-logo">O</div>
+        <h1>OMIS</h1>
+        <p>Online Management Information System</p>
+
+        <div class="brand-message">
+          <h2>Your school documents, made easier.</h2>
+          <p>Request, manage, and track your school documents in one place.</p>
+        </div>
+
+        <span class="brand-footer">Student Portal</span>
+      </section>
+
+      <section class="login-panel">
+        <div class="login-form-container">
+          <span class="welcome-label">WELCOME BACK</span>
+          <h2>Student Login</h2>
+          <p class="login-description">
+            Enter your student credentials to access your account.
+          </p>
+
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="studentNumber">Student Number</label>
+              <input
+                type="text"
+                id="studentNumber"
+                placeholder="Enter your student number"
+                autocomplete="username"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                />
+                <button type="button" id="togglePassword">Show</button>
+              </div>
+            </div>
+
+            <p id="errorMessage" class="error-message" role="alert"></p>
+
+            <button type="submit" class="login-button">
+              Sign In <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <div class="demo-credentials">
+            <strong>Demo Credentials</strong>
+            <p>Student Number: <code>2024-07868-MN-0</code></p>
+            <p>Password: <code>082006</code></p>
+          </div>
+
+          <p class="login-note">
+            For assistance, please contact your school administrator.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      const studentNumberInput = document.getElementById("studentNumber");
+      const passwordInput = document.getElementById("password");
+      const errorMessage = document.getElementById("errorMessage");
+      const togglePassword = document.getElementById("togglePassword");
+
+      // Demo credentials only. Do not use this for real accounts.
+      const DEMO_STUDENT_NUMBER = "2024-07868-MN-0";
+      const DEMO_PASSWORD = "082006";
+
+      togglePassword.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        togglePassword.textContent = isPassword ? "Hide" : "Show";
+      });
+
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const studentNumber = studentNumberInput.value.trim();
+        const password = passwordInput.value;
+
+        if (
+          studentNumber === DEMO_STUDENT_NUMBER &&
+          password === DEMO_PASSWORD
+        ) {
+          sessionStorage.setItem("omisLoggedIn", "true");
+          sessionStorage.setItem("omisStudentNumber", studentNumber);
+
+          window.location.href = "index.html";
+        } else {
+          errorMessage.textContent =
+            "Invalid student number or password. Please try again.";
+        }
+      });
+
+      // Redirect users who already logged in during this session.
+      if (sessionStorage.getItem("omisLoggedIn") === "true") {
+        window.location.replace("index.html");
+      }
+    </script>
+  </body>
+</html>
