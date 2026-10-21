@@ -64,8 +64,16 @@
 
           <div class="demo-credentials">
             <strong>Demo Credentials</strong>
-            <p>Student Number: <code>2024-07868-MN-0</code></p>
-            <p>Password: <code>082006</code></p>
+            <div style="margin-bottom: 8px;">
+              <span style="font-weight: 700; color: var(--primary);">Student Account:</span><br />
+              ID: <code>2024-07868-MN-0</code> | Pass: <code>082006</code>
+              <button type="button" id="fillStudentBtn" style="display: inline-block; margin-left: 6px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 11px; cursor: pointer;">Fill</button>
+            </div>
+            <div>
+              <span style="font-weight: 700; color: #c93b50;">Admin / Registrar Account:</span><br />
+              ID: <code>admin</code> | Pass: <code>admin123</code>
+              <button type="button" id="fillAdminBtn" style="display: inline-block; margin-left: 6px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 11px; cursor: pointer;">Fill</button>
+            </div>
           </div>
 
           <p class="login-note">
@@ -82,9 +90,25 @@
       const errorMessage = document.getElementById("errorMessage");
       const togglePassword = document.getElementById("togglePassword");
 
-      // Demo credentials only. Do not use this for real accounts.
+      // Demo credentials
       const DEMO_STUDENT_NUMBER = "2024-07868-MN-0";
       const DEMO_PASSWORD = "082006";
+
+      const DEMO_ADMIN_ID = "admin";
+      const DEMO_ADMIN_PASSWORD = "admin123";
+
+      // Fill buttons
+      document.getElementById("fillStudentBtn")?.addEventListener("click", () => {
+        studentNumberInput.value = DEMO_STUDENT_NUMBER;
+        passwordInput.value = DEMO_PASSWORD;
+        errorMessage.textContent = "";
+      });
+
+      document.getElementById("fillAdminBtn")?.addEventListener("click", () => {
+        studentNumberInput.value = DEMO_ADMIN_ID;
+        passwordInput.value = DEMO_ADMIN_PASSWORD;
+        errorMessage.textContent = "";
+      });
 
       togglePassword.addEventListener("click", () => {
         const isPassword = passwordInput.type === "password";
@@ -95,25 +119,44 @@
       loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const studentNumber = studentNumberInput.value.trim();
+        const identifier = studentNumberInput.value.trim();
         const password = passwordInput.value;
 
+        // Check Admin
         if (
-          studentNumber === DEMO_STUDENT_NUMBER &&
+          (identifier.toLowerCase() === DEMO_ADMIN_ID || identifier.toLowerCase() === "admin@omis.edu") &&
+          (password === DEMO_ADMIN_PASSWORD || password === "admin")
+        ) {
+          sessionStorage.setItem("omisLoggedIn", "true");
+          sessionStorage.setItem("omisAdminLoggedIn", "true");
+          sessionStorage.setItem("omisRole", "admin");
+          sessionStorage.setItem("omisStudentNumber", identifier);
+
+          window.location.href = "admin.html";
+          return;
+        }
+
+        // Check Student
+        if (
+          identifier === DEMO_STUDENT_NUMBER &&
           password === DEMO_PASSWORD
         ) {
           sessionStorage.setItem("omisLoggedIn", "true");
-          sessionStorage.setItem("omisStudentNumber", studentNumber);
+          sessionStorage.setItem("omisRole", "student");
+          sessionStorage.setItem("omisStudentNumber", identifier);
 
           window.location.href = "index.html";
-        } else {
-          errorMessage.textContent =
-            "Invalid student number or password. Please try again.";
+          return;
         }
+
+        errorMessage.textContent =
+          "Invalid credentials. Please use the demo credentials provided below.";
       });
 
       // Redirect users who already logged in during this session.
-      if (sessionStorage.getItem("omisLoggedIn") === "true") {
+      if (sessionStorage.getItem("omisAdminLoggedIn") === "true" || sessionStorage.getItem("omisRole") === "admin") {
+        window.location.replace("admin.html");
+      } else if (sessionStorage.getItem("omisLoggedIn") === "true") {
         window.location.replace("index.html");
       }
     </script>
