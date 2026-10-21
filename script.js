@@ -1,3 +1,7 @@
+if (sessionStorage.getItem("omisLoggedIn") !== "true") {
+  window.location.replace("login.html");
+}
+
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
@@ -445,5 +449,15 @@ document.addEventListener("keydown", (event) => {
     $("#mobileOverlay").classList.remove("visible");
   }
 });
+
+const logoutButton = document.getElementById("logoutButton");
+
+if (logoutButton) {
+  logoutButton.addEventListener("click", () => {
+    sessionStorage.removeItem("omisLoggedIn");
+    sessionStorage.removeItem("omisStudentNumber");
+    window.location.replace("login.html");
+  });
+}
 
 renderAll();
