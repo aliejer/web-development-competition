@@ -455,9 +455,20 @@ const logoutButton = document.getElementById("logoutButton");
 if (logoutButton) {
   logoutButton.addEventListener("click", () => {
     sessionStorage.removeItem("omisLoggedIn");
+    sessionStorage.removeItem("omisAdminLoggedIn");
+    sessionStorage.removeItem("omisRole");
     sessionStorage.removeItem("omisStudentNumber");
     window.location.replace("login.html");
   });
 }
+
+// Cross-tab synchronization with admin actions
+window.addEventListener("storage", (event) => {
+  if (event.key === STORAGE_KEY || event.key === NOTIFICATION_KEY) {
+    requests = loadData(STORAGE_KEY, initialRequests);
+    notifications = loadData(NOTIFICATION_KEY, []);
+    renderAll();
+  }
+});
 
 renderAll();
