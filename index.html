@@ -1,14 +1,585 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6558d9" />
+    <meta
+      name="description"
+      content="OMIS Student Portal. Request, manage, and track your school documents online."
+    />
+    <title>OMIS | Student Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
-  <body></body>
-    <script src="" async defer></script>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#" data-page="Dashboard">
+          <div class="brand-mark">O</div>
+          <div>
+            <strong>OMIS</strong>
+            <span>STUDENT PORTAL</span>
+          </div>
+        </a>
+
+        <div class="school-label">STUDENT WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-page="Dashboard">
+            <span class="nav-icon">▦</span> Dashboard
+          </button>
+          <button class="nav-item" data-page="Request Documents">
+            <span class="nav-icon">＋</span> Request Documents
+          </button>
+          <button class="nav-item" data-page="My Requests">
+            <span class="nav-icon">▤</span> My Requests
+          </button>
+          <button class="nav-item" data-page="Notifications">
+            <span class="nav-icon">♧</span> Notifications
+            <span class="nav-count" id="notificationCount">2</span>
+          </button>
+          <button class="nav-item" data-page="Profile">
+            <span class="nav-icon">♙</span> My Profile
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <div class="help-icon">?</div>
+            <strong>Need assistance?</strong>
+            <p>Questions about your documents? We're here to help.</p>
+            <button data-page="Help Center">Visit Help Center ↗</button>
+          </div>
+
+          <div class="sidebar-user">
+            <div class="avatar">AM</div>
+            <div class="user-info">
+              <strong>Alex Morgan</strong>
+              <span>DIT · 2nd Year</span>
+            </div>
+            <span class="muted">⌄</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="mobile-overlay" id="mobileOverlay"></div>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+              ☰
+            </button>
+            <div class="breadcrumbs">
+              <span>Student Portal</span>
+              <span class="muted">/</span>
+              <strong id="breadcrumb">Dashboard</strong>
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <button
+              class="notification-button"
+              data-page="Notifications"
+              aria-label="Notifications"
+            >
+              ♧ <span class="notification-dot" id="notificationDot"></span>
+            </button>
+            <div class="topbar-divider"></div>
+            <div class="topbar-profile">
+              <div class="avatar small-avatar">AM</div>
+              <div>
+                <strong>Alex Morgan</strong>
+                <span>Student Account</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <!-- DASHBOARD -->
+          <section class="page active" id="page-Dashboard">
+            <div class="welcome-row">
+              <div>
+                <div class="eyebrow"><span></span> YOUR STUDENT WORKSPACE</div>
+                <h1>Good morning, Alex <span class="wave">✦</span></h1>
+                <p class="subtitle">
+                  Manage your school document requests in one place.
+                </p>
+              </div>
+              <button class="primary-button" data-page="Request Documents">
+                <span>＋</span> Request a Document
+              </button>
+            </div>
+
+            <div class="stats-grid">
+              <article class="stat-card">
+                <div class="stat-top">
+                  <div class="stat-icon purple">▤</div>
+                  <span class="stat-caption">All time</span>
+                </div>
+                <span class="stat-label">Total Requests</span>
+                <div class="stat-bottom">
+                  <strong id="totalCount">05</strong>
+                  <span>All submissions</span>
+                </div>
+              </article>
+
+              <article class="stat-card">
+                <div class="stat-top">
+                  <div class="stat-icon amber">◷</div>
+                  <span class="stat-caption">In progress</span>
+                </div>
+                <span class="stat-label">Pending Requests</span>
+                <div class="stat-bottom">
+                  <strong id="pendingCount">01</strong>
+                  <span>Awaiting action</span>
+                </div>
+              </article>
+
+              <article class="stat-card">
+                <div class="stat-top">
+                  <div class="stat-icon blue">▣</div>
+                  <span class="stat-caption">Reviewed</span>
+                </div>
+                <span class="stat-label">Approved Requests</span>
+                <div class="stat-bottom">
+                  <strong id="approvedCount">01</strong>
+                  <span>Approved by staff</span>
+                </div>
+              </article>
+
+              <article class="stat-card">
+                <div class="stat-top">
+                  <div class="stat-icon green">✓</div>
+                  <span class="stat-caption">Finished</span>
+                </div>
+                <span class="stat-label">Completed Requests</span>
+                <div class="stat-bottom">
+                  <strong id="completedCount">02</strong>
+                  <span>Ready or collected</span>
+                </div>
+              </article>
+            </div>
+
+            <div class="content-grid">
+              <section class="panel recent-panel">
+                <div class="panel-heading">
+                  <div>
+                    <h2>My Recent Requests</h2>
+                    <p>Keep track of your latest document submissions.</p>
+                  </div>
+                  <button class="text-action" data-page="My Requests">
+                    View all ↗
+                  </button>
+                </div>
+
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>DOCUMENT REQUEST</th>
+                        <th>DATE SUBMITTED</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentTable"></tbody>
+                  </table>
+                </div>
+              </section>
+
+              <div class="right-column">
+                <section class="new-request-card">
+                  <div class="request-card-top">
+                    <div class="request-card-icon">▤</div>
+                    <span class="mini-tag">QUICK ACTION</span>
+                  </div>
+                  <h2>Need a school document?</h2>
+                  <p>
+                    Request certificates, transcripts, and other official school
+                    records without the long queue.
+                  </p>
+                  <button
+                    class="request-card-button"
+                    data-page="Request Documents"
+                  >
+                    Start a New Request <span>→</span>
+                  </button>
+                  <div class="request-card-foot">
+                    ✓ Simple, secure, and convenient
+                  </div>
+                </section>
+
+                <section class="panel progress-panel">
+                  <div class="panel-heading compact-heading">
+                    <div>
+                      <h2>Request Progress</h2>
+                      <p>Your latest submission</p>
+                    </div>
+                    <span class="progress-number">01</span>
+                  </div>
+
+                  <div class="timeline">
+                    <div class="timeline-step done">
+                      <div class="timeline-marker">✓</div>
+                      <div>
+                        <strong>Request submitted</strong
+                        ><span>We've received your request</span>
+                      </div>
+                    </div>
+                    <div class="timeline-step current">
+                      <div class="timeline-marker">◷</div>
+                      <div>
+                        <strong>Under review</strong
+                        ><span>Staff is reviewing your details</span>
+                      </div>
+                    </div>
+                    <div class="timeline-step">
+                      <div class="timeline-marker">✓</div>
+                      <div>
+                        <strong>Approval</strong
+                        ><span>Waiting for staff confirmation</span>
+                      </div>
+                    </div>
+                    <div class="timeline-step last-step">
+                      <div class="timeline-marker">▤</div>
+                      <div>
+                        <strong>Ready for pickup</strong
+                        ><span>We'll notify you when it's ready</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="processing-note">
+                  <div class="processing-icon">▦</div>
+                  <div>
+                    <strong>Plan ahead</strong>
+                    <p>
+                      Processing times may vary by document. Check with your
+                      registrar for estimates.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- REQUEST DOCUMENTS -->
+          <section class="page" id="page-Request Documents">
+            <section class="panel form-panel">
+              <div class="eyebrow"><span></span> ONLINE SERVICES</div>
+              <h1>Request a Document</h1>
+              <p class="subtitle">
+                Fill in the details below to submit a school document request.
+              </p>
+
+              <div class="info-banner">
+                <span>ⓘ</span>
+                <p>
+                  Make sure your information is correct. You can track your
+                  request status from My Requests.
+                </p>
+              </div>
+
+              <form id="requestForm">
+                <div class="form-section-title">
+                  <span>01</span>
+                  <div>
+                    <h3>Document Information</h3>
+                    <p>Tell us what document you need.</p>
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <label class="field full-field">
+                    Document Type <b>*</b>
+                    <select id="documentType" required>
+                      <option value="Certificate of Enrollment">
+                        Certificate of Enrollment
+                      </option>
+                      <option value="Transcript of Records">
+                        Transcript of Records
+                      </option>
+                      <option value="Certificate of Grades">
+                        Certificate of Grades
+                      </option>
+                      <option value="Certificate of Good Moral">
+                        Certificate of Good Moral
+                      </option>
+                      <option value="Honorable Dismissal">
+                        Honorable Dismissal
+                      </option>
+                      <option value="Other School Document">
+                        Other School Document
+                      </option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    Academic Semester
+                    <select id="semester">
+                      <option>First Semester</option>
+                      <option>Second Semester</option>
+                      <option>Summer</option>
+                      <option>Not Applicable</option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    Number of Copies
+                    <select id="copies">
+                      <option value="1">1 copy</option>
+                      <option value="2">2 copies</option>
+                      <option value="3">3 copies</option>
+                      <option value="4">4 copies</option>
+                      <option value="5">5 copies</option>
+                    </select>
+                  </label>
+
+                  <label class="field full-field">
+                    Purpose of Request <b>*</b>
+                    <textarea
+                      id="purpose"
+                      required
+                      rows="3"
+                      placeholder="e.g. Scholarship application, internship, personal records..."
+                    ></textarea>
+                  </label>
+                </div>
+
+                <div class="form-section-title second-section">
+                  <span>02</span>
+                  <div>
+                    <h3>Receiving Preferences</h3>
+                    <p>Choose how you would like to receive your document.</p>
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <label class="field">
+                    Preferred Method
+                    <select id="delivery">
+                      <option>School pickup</option>
+                      <option>Digital copy</option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    Additional Notes <span class="optional">(Optional)</span>
+                    <input
+                      id="notes"
+                      type="text"
+                      placeholder="Any special instructions"
+                    />
+                  </label>
+                </div>
+
+                <div class="form-footer">
+                  <p><b>*</b> Required fields</p>
+                  <div>
+                    <button
+                      type="button"
+                      class="secondary-button"
+                      data-page="Dashboard"
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" class="primary-button">
+                      ✓ Submit Request
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </section>
+          </section>
+
+          <!-- MY REQUESTS -->
+          <section class="page" id="page-My Requests">
+            <section class="panel full-panel">
+              <div class="page-title-row">
+                <div>
+                  <div class="eyebrow"><span></span> YOUR RECORDS</div>
+                  <h1>My Requests</h1>
+                  <p class="subtitle">
+                    View and track every document request you've submitted.
+                  </p>
+                </div>
+                <button class="primary-button" data-page="Request Documents">
+                  ＋ New Request
+                </button>
+              </div>
+
+              <div class="table-controls">
+                <div class="search-box">
+                  <span>⌕</span>
+                  <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search document or reference..."
+                  />
+                </div>
+                <select id="statusFilter" aria-label="Filter by status">
+                  <option value="All">All statuses</option>
+                  <option>Pending</option>
+                  <option>Under Review</option>
+                  <option>Approved</option>
+                  <option>Ready for Pickup</option>
+                  <option>Completed</option>
+                  <option>Rejected</option>
+                </select>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>DOCUMENT REQUEST</th>
+                      <th>DATE SUBMITTED</th>
+                      <th>STATUS</th>
+                      <th>ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody id="requestsTable"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <!-- NOTIFICATIONS -->
+          <section class="page" id="page-Notifications">
+            <section class="panel full-panel">
+              <div class="page-title-row">
+                <div>
+                  <div class="eyebrow"><span></span> STAY UPDATED</div>
+                  <h1>Notifications</h1>
+                  <p class="subtitle">Updates about your document requests.</p>
+                </div>
+                <button class="secondary-button" id="markRead">
+                  Mark all as read
+                </button>
+              </div>
+              <div id="notificationList" class="notification-list"></div>
+            </section>
+          </section>
+
+          <!-- PROFILE -->
+          <section class="page" id="page-Profile">
+            <section class="panel full-panel profile-panel">
+              <div class="eyebrow"><span></span> YOUR ACCOUNT</div>
+              <h1>My Profile</h1>
+              <p class="subtitle">
+                Your student information for document requests.
+              </p>
+
+              <div class="profile-banner">
+                <div class="avatar profile-avatar">AM</div>
+                <div>
+                  <h2>Alex Morgan</h2>
+                  <p>Student · DIT 2nd Year</p>
+                  <span class="verified">✓ Student account</span>
+                </div>
+              </div>
+
+              <div class="profile-details">
+                <div>
+                  <span>Student Number</span><strong>2026-00001</strong>
+                </div>
+                <div>
+                  <span>Program</span
+                  ><strong>Diploma in Information Technology</strong>
+                </div>
+                <div><span>Year Level</span><strong>2nd Year</strong></div>
+                <div>
+                  <span>Email Address</span
+                  ><strong>alex.morgan@example.edu</strong>
+                </div>
+              </div>
+              <p class="disclaimer">
+                Sample student information for demonstration purposes only.
+              </p>
+            </section>
+          </section>
+
+          <!-- HELP CENTER -->
+          <section class="page" id="page-Help Center">
+            <section class="panel full-panel">
+              <div class="eyebrow"><span></span> STUDENT SUPPORT</div>
+              <h1>Help Center</h1>
+              <p class="subtitle">
+                Answers to common questions about document requests.
+              </p>
+              <div class="help-questions">
+                <details>
+                  <summary>How do I request a document?</summary>
+                  <p>
+                    Open Request Documents, select the document type, provide
+                    the purpose, and submit the form.
+                  </p>
+                </details>
+                <details>
+                  <summary>How do I check my request status?</summary>
+                  <p>
+                    Open My Requests to see your reference number and the latest
+                    status.
+                  </p>
+                </details>
+                <details>
+                  <summary>What if my request is rejected?</summary>
+                  <p>
+                    Read the staff remarks, correct the issue, and contact the
+                    registrar if you need assistance.
+                  </p>
+                </details>
+                <details>
+                  <summary>How long does processing take?</summary>
+                  <p>
+                    Processing times depend on the document and school policy.
+                    Contact your registrar for an official estimate.
+                  </p>
+                </details>
+              </div>
+              <button class="secondary-button" data-page="Dashboard">
+                Back to Dashboard
+              </button>
+            </section>
+          </section>
+
+          <footer class="page-footer">
+            <span>© 2026 OMIS Student Portal</span>
+            <span>Making school services simpler <b>♥</b></span>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <!-- REQUEST DETAILS MODAL -->
+    <div class="modal-backdrop" id="detailModal" hidden>
+      <div class="modal-card">
+        <div class="modal-heading">
+          <div>
+            <div class="eyebrow"><span></span> REQUEST DETAILS</div>
+            <h2 id="detailTitle">Document Request</h2>
+          </div>
+          <button class="close-button" data-close-modal aria-label="Close">
+            ×
+          </button>
+        </div>
+        <div id="detailContent"></div>
+        <div class="modal-actions">
+          <button class="secondary-button" data-close-modal>Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
